@@ -118,10 +118,10 @@
 
         <Canvas x:Name="ToolBarCanvas" Grid.Row="2" >
             <ToggleButton x:Name="toogleSearchBotton" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" >
-                <ToggleButton.ContentTemplate>
-                    <DataTemplate>
+                <ToggleButton.Template>
+                    <ControlTemplate>
                         <Canvas>
-                            <Ellipse Height="12.6" Canvas.Left="-2.6" Canvas.Top="-10" Stroke="Black" StrokeThickness="2" Width="12.6">
+                            <Ellipse Height="12" Canvas.Left="9" Stroke="Black" StrokeThickness="2" Width="12" Canvas.Top="1">
                                 <Ellipse.Fill>
                                     <RadialGradientBrush>
                                         <GradientStop Color="#FF495889" Offset="0"/>
@@ -129,10 +129,10 @@
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
-                            <Path Data="M10,0 L0,10" Fill="#FFF4F4F5" Height="10" Stroke="Black" StrokeThickness="2" Canvas.Top="0" Canvas.Left="-10" Width="10"/>
+                            <Path Data="M10,0 L0,10" Fill="#FFF4F4F5" Height="10" Stroke="Black" StrokeThickness="2" Canvas.Top="10" Canvas.Left="3" Width="10"/>
                         </Canvas>
-                    </DataTemplate>
-                </ToggleButton.ContentTemplate>
+                    </ControlTemplate>
+                </ToggleButton.Template>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Checked">
                         <ei:GoToStateAction StateName="Search"/>
