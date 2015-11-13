@@ -3,6 +3,8 @@ using Expression.Blend.SampleData.SampleDataSource;
 using System.Reactive.Linq;
 using System.Windows.Controls;
 using System;
+using System.Linq;
+using Microsoft.Expression.Interactivity.Core;
 
 namespace Test
 {
@@ -50,9 +52,22 @@ namespace Test
             return messages;
         }
 
+        public void FocusTextBoxSearch()
+        {
+            searchText.Focus();
+        }
+
         private void ScrollViewer_ManipulationBoundaryFeedback(object sender, System.Windows.Input.ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void searchText_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Escape)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

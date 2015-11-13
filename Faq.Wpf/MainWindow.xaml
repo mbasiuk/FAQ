@@ -1,31 +1,129 @@
-﻿<Window x:Class="Test.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Test.MainWindow"
         mc:Ignorable="d"
-        d:DataContext="{Binding Source={StaticResource SampleDataSource}}"
+    x:Name="FaqWindow"
         Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico">
+
     <Window.Resources>
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Margin" Value="15"/>
+        </Style>
+
+        <Style x:Key="ToogleButtonStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="15"/>
+        </Style>
+
         <DataTemplate x:Key="FaqItemTemplate">
             <StackPanel Width="500" Margin="20">
-                <TextBox Margin="0,0,0,10" ScrollViewer.PanningMode="VerticalOnly" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent" IsReadOnly="True" Text="{Binding Question,Mode=OneWay}" TextWrapping="Wrap" FontWeight="Bold" />
-                <TextBox BorderBrush="{x:Null}" ScrollViewer.PanningMode="VerticalOnly" BorderThickness="0" Background="Transparent" IsReadOnly="True" Text="{Binding Answer,Mode=OneWay}" TextWrapping="Wrap" />
+                <TextBox Margin="0,0,0,10" ScrollViewer.PanningMode="VerticalOnly" BorderBrush="{x:Null}" BorderThickness="0" Background="Transparent" IsReadOnly="True" Text="{Binding Question, Mode=OneWay}" TextWrapping="Wrap" FontWeight="Bold" />
+                <TextBox BorderBrush="{x:Null}" ScrollViewer.PanningMode="VerticalOnly" BorderThickness="0" Background="Transparent" IsReadOnly="True" Text="{Binding Answer, Mode=OneWay}" TextWrapping="Wrap" />
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
             <VirtualizingStackPanel/>
         </ItemsPanelTemplate>
+        <Storyboard x:Key="OnKeyDown1"/>
 
     </Window.Resources>
-    <Grid>
+    <d:DataContext>
+        <Binding Source="{StaticResource SampleDataSource}"/>
+    </d:DataContext>
+    <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="28"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SearchVisualStateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.2">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <ExponentialEase EasingMode="EaseOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Normal"/>
+                <VisualState x:Name="Search">
+                    <Storyboard>
+                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="canvas">
+                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
+                        </BooleanAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="canvas">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="211"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background)" Storyboard.TargetName="ToolBarCanvas">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <SolidColorBrush Color="AliceBlue"/>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ToolBoxSearchStateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.1"/>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Default"/>
+                <VisualState x:Name="Hover">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="toggleButton">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto" MinHeight="28.4"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="searchText" Width="200" Grid.Row="2" Height="22"/>
-        <ScrollViewer Padding="0,20" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback">
+
+        <Canvas x:Name="ToolBarCanvas" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <ToggleButton x:Name="toggleButton" Width="22" Height="22" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" Canvas.Left="2.65" Margin="0" Canvas.Top="3.85" >
+                <ToggleButton.ContentTemplate>
+                    <DataTemplate>
+                    <Canvas>
+                        <Ellipse Fill="#FFF4F4F5" Height="12.6" Canvas.Left="-2.6" Canvas.Top="-10" Stroke="Black" Width="12.6"/>
+                        <Path Data="M10,0 L0,10" Fill="#FFF4F4F5" Height="10" Stroke="Black" Canvas.Top="0" Canvas.Left="-10" Width="10"/>
+                    </Canvas>
+                    </DataTemplate>
+                </ToggleButton.ContentTemplate>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <ei:GoToStateAction StateName="Search"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <ei:GoToStateAction StateName="Normal"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:GoToStateAction StateName="Hover"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:GoToStateAction StateName="Default"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ToggleButton>
+
+        </Canvas>
+
+
+        <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="1" Width="0" HorizontalAlignment="Left" ClipToBounds="True" Background="AliceBlue" IsEnabled="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
+            <TextBox x:Name="searchText"  Style="{StaticResource TextBoxStyle}" KeyUp="searchText_KeyUp" Canvas.Left="2.2" Margin="0" Canvas.Top="4" >
+            </TextBox>
+        </Canvas>
+
+        <ScrollViewer Padding="0,20" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" Grid.ColumnSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <ItemsControl x:Name="listBox" ItemTemplate="{DynamicResource FaqItemTemplate}" ItemsSource="{Binding}" Margin="40,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" />
         </ScrollViewer>
     </Grid>

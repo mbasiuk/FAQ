@@ -1,0 +1,5 @@
+1) Build solution
+2) Copy connection string from Faq.Library.app.config connectionString settings
+3) Publish Faq.Db with the copied connection string
+4) Set Faq.Wpf as start project
+5) Run Faq.Wpf
