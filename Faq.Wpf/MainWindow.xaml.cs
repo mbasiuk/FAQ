@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using LFaq = Faq.Library.Faq;
 using Faq.Library.Extentions;
 using System.Reactive;
+using System.Windows.Input;
 
-namespace Test
+namespace WpfFaq
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,7 +25,7 @@ namespace Test
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             AllFaqs = LFaq.GetAllFaq();
-            DataContext = AllFaqs;
+            Hande(null);
             Observable.FromEventPattern<TextChangedEventArgs>(searchText, "TextChanged")
                 .Throttle(TimeSpan.FromMilliseconds(200))
                 .ObserveOn(System.Threading.SynchronizationContext.Current)
@@ -37,7 +38,10 @@ namespace Test
             return messages;
         }
 
-        private void ScrollViewer_ManipulationBoundaryFeedback(object sender, System.Windows.Input.ManipulationBoundaryFeedbackEventArgs e)
+        /// <summary>
+        /// Enable scrolling fix on touch screen;
+        /// </summary>
+        private void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
         }

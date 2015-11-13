@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Test.Properties {
+namespace WpfFaq.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
