@@ -14,6 +14,7 @@
             <Setter Property="Height" Value="22"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Margin" Value="4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
         <Style x:Key="ToogleButtonStyle" TargetType="{x:Type ToggleButton}">
