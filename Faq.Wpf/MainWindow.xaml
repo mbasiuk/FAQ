@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Test.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico">
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" >
 
     <Window.Resources>
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
@@ -31,7 +31,6 @@
         <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
             <VirtualizingStackPanel/>
         </ItemsPanelTemplate>
-        <Storyboard x:Key="OnKeyDown1"/>
 
     </Window.Resources>
     <d:DataContext>
@@ -60,13 +59,6 @@
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="canvas">
                             <EasingDoubleKeyFrame KeyTime="0" Value="211"/>
                         </DoubleAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background)" Storyboard.TargetName="ToolBarCanvas">
-                            <DiscreteObjectKeyFrame KeyTime="0">
-                                <DiscreteObjectKeyFrame.Value>
-                                    <SolidColorBrush Color="AliceBlue"/>
-                                </DiscreteObjectKeyFrame.Value>
-                            </DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
@@ -77,7 +69,7 @@
                 <VisualState x:Name="Default"/>
                 <VisualState x:Name="Hover">
                     <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="toggleButton">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="toogleSearchBotton">
                             <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
@@ -90,13 +82,20 @@
         </Grid.RowDefinitions>
 
         <Canvas x:Name="ToolBarCanvas" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-            <ToggleButton x:Name="toggleButton" Width="22" Height="22" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" Canvas.Left="2.65" Margin="0" Canvas.Top="3.85" >
+            <ToggleButton x:Name="toogleSearchBotton" Width="22" Height="22" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" Canvas.Left="4" Margin="0" Canvas.Top="4" BorderThickness="0" >
                 <ToggleButton.ContentTemplate>
                     <DataTemplate>
-                    <Canvas>
-                        <Ellipse Fill="#FFF4F4F5" Height="12.6" Canvas.Left="-2.6" Canvas.Top="-10" Stroke="Black" Width="12.6"/>
-                        <Path Data="M10,0 L0,10" Fill="#FFF4F4F5" Height="10" Stroke="Black" Canvas.Top="0" Canvas.Left="-10" Width="10"/>
-                    </Canvas>
+                        <Canvas>
+                            <Ellipse Height="12.6" Canvas.Left="-2.6" Canvas.Top="-10" Stroke="Black" StrokeThickness="2" Width="12.6">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="#FF495889" Offset="0"/>
+                                        <GradientStop Color="#FFD2D8EB" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Path Data="M10,0 L0,10" Fill="#FFF4F4F5" Height="10" Stroke="Black" StrokeThickness="2" Canvas.Top="0" Canvas.Left="-10" Width="10"/>
+                        </Canvas>
                     </DataTemplate>
                 </ToggleButton.ContentTemplate>
                 <i:Interaction.Triggers>
@@ -118,8 +117,8 @@
         </Canvas>
 
 
-        <Canvas x:Name="canvas" Grid.Row="1" Grid.Column="1" Width="0" HorizontalAlignment="Left" ClipToBounds="True" Background="AliceBlue" IsEnabled="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
-            <TextBox x:Name="searchText"  Style="{StaticResource TextBoxStyle}" KeyUp="searchText_KeyUp" Canvas.Left="2.2" Margin="0" Canvas.Top="4" >
+        <Canvas FocusManager.FocusedElement="{Binding ElementName=searchText}" x:Name="canvas" Grid.Row="1" Grid.Column="1" Width="0" HorizontalAlignment="Left" ClipToBounds="True" IsEnabled="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
+            <TextBox x:Name="searchText"  Style="{StaticResource TextBoxStyle}" Canvas.Left="2.2" Margin="0" Canvas.Top="4" >
             </TextBox>
         </Canvas>
 
