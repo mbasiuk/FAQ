@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Faq.Library.Extentions
 {
     public static class FaqExtentions
     {
-        public static IEnumerable<Faq> Filter(this List<Faq> AllFaqs, string pattern)
+        public static IEnumerable<Faq> Filter(this Collection<Faq> AllFaqs, string pattern)
         {
             if (string.IsNullOrWhiteSpace(pattern))
             {

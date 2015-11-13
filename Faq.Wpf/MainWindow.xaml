@@ -13,13 +13,21 @@
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Height" Value="22"/>
             <Setter Property="Width" Value="200"/>
-            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Margin" Value="4"/>
         </Style>
 
         <Style x:Key="ToogleButtonStyle" TargetType="{x:Type ToggleButton}">
-            <Setter Property="Width" Value="200"/>
+            <Setter Property="Width" Value="22"/>
             <Setter Property="Height" Value="22"/>
-            <Setter Property="Margin" Value="15"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="22"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
         <DataTemplate x:Key="FaqItemTemplate">
@@ -75,14 +83,41 @@
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="NewItemStateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.2"/>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="View"/>
+                <VisualState x:Name="AddItem">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="canvasAddNewItem">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="461"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="ToolBoxNewItemStateGroup">
+                <VisualState x:Name="NewItemDefault"/>
+                <VisualState x:Name="NewItemHower">
+                    <Storyboard>
+                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="AddNewItem">
+                            <EasingColorKeyFrame KeyTime="0" Value="#FF072C15"/>
+                        </ColorAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddNewItem">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="Auto" MinHeight="28.4"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Canvas x:Name="ToolBarCanvas" Grid.Row="1" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
-            <ToggleButton x:Name="toogleSearchBotton" Width="22" Height="22" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" Canvas.Left="4" Margin="0" Canvas.Top="4" BorderThickness="0" >
+        <Canvas x:Name="ToolBarCanvas" Grid.Row="2" >
+            <ToggleButton x:Name="toogleSearchBotton" Style="{DynamicResource ToogleButtonStyle}" Opacity="0.2" >
                 <ToggleButton.ContentTemplate>
                     <DataTemplate>
                         <Canvas>
@@ -113,16 +148,46 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ToggleButton>
-
         </Canvas>
 
+        <Canvas Grid.Row="1" Height="30">
+            <ToggleButton Style="{DynamicResource ToogleButtonStyle}" Content="+" x:Name="AddNewItem" Opacity="0.2">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <Canvas>
+                            <TextBlock Canvas.Left="4" Canvas.Top="-4" FontSize="20" Foreground="DarkGreen" FontWeight="Bold">+</TextBlock>
+                        </Canvas>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Checked">
+                        <ei:GoToStateAction StateName="AddItem"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Unchecked">
+                        <ei:GoToStateAction StateName="View"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:GoToStateAction StateName="NewItemHower"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:GoToStateAction StateName="NewItemDefault"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ToggleButton>
+        </Canvas>
 
-        <Canvas FocusManager.FocusedElement="{Binding ElementName=searchText}" x:Name="canvas" Grid.Row="1" Grid.Column="1" Width="0" HorizontalAlignment="Left" ClipToBounds="True" IsEnabled="False" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" >
+        <Canvas x:Name="canvasAddNewItem" Width="0" ClipToBounds="True" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding IsChecked, ElementName=AddNewItem}">
+            <TextBox x:Name="questionText" Style="{StaticResource TextBoxStyle}"></TextBox>
+            <TextBox x:Name="answerText" Canvas.Left="210" Style="{StaticResource TextBoxStyle}"></TextBox>
+            <Button Canvas.Left="420" Style="{StaticResource ButtonStyle}" Click="Button_Click">OK</Button>
+        </Canvas>
+
+        <Canvas FocusManager.FocusedElement="{Binding ElementName=searchText}" x:Name="canvas" Grid.Row="2" Grid.Column="1" Width="0" HorizontalAlignment="Left" ClipToBounds="True" IsEnabled="False" Height="30" >
             <TextBox x:Name="searchText"  Style="{StaticResource TextBoxStyle}" Canvas.Left="2.2" Margin="0" Canvas.Top="4" >
             </TextBox>
         </Canvas>
 
-        <ScrollViewer Padding="0,20" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" Grid.ColumnSpan="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+        <ScrollViewer Grid.Column="1" Padding="0,20" PanningMode="VerticalOnly" ManipulationBoundaryFeedback="ScrollViewer_ManipulationBoundaryFeedback" Grid.ColumnSpan="2" >
             <ItemsControl x:Name="listBox" ItemTemplate="{DynamicResource FaqItemTemplate}" ItemsSource="{Binding}" Margin="40,0" ItemsPanel="{DynamicResource ItemsPanelTemplate1}" />
         </ScrollViewer>
     </Grid>

@@ -1,12 +1,11 @@
-﻿using System.Windows;
-using System.Reactive.Linq;
-using System.Windows.Controls;
+﻿using Faq.Library.Extentions;
 using System;
-using System.Collections.Generic;
-using LFaq = Faq.Library.Faq;
-using Faq.Library.Extentions;
 using System.Reactive;
+using System.Reactive.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using LFaq = Faq.Library.Faq;
 
 namespace WpfFaq
 {
@@ -15,7 +14,7 @@ namespace WpfFaq
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<LFaq> AllFaqs;
+        System.Collections.ObjectModel.ObservableCollection<LFaq> AllFaqs;
 
         public MainWindow()
         {
@@ -24,7 +23,7 @@ namespace WpfFaq
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AllFaqs = LFaq.GetAllFaq();
+            AllFaqs = new System.Collections.ObjectModel.ObservableCollection<LFaq>(LFaq.GetAllFaq());
             Hande(null);
             Observable.FromEventPattern<TextChangedEventArgs>(searchText, "TextChanged")
                 .Throttle(TimeSpan.FromMilliseconds(200))
@@ -44,6 +43,19 @@ namespace WpfFaq
         private void ScrollViewer_ManipulationBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(questionText.Text) || string.IsNullOrWhiteSpace(answerText.Text))
+            {
+                return;
+            }
+            LFaq faq = new LFaq(questionText.Text, answerText.Text);
+            AllFaqs.Add(faq);
+            questionText.Text = string.Empty;
+            answerText.Text = string.Empty;
+            Hande(null);
         }
     }
 }
