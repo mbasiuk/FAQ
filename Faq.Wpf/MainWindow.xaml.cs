@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using Expression.Blend.SampleData.SampleDataSource;
 using System.Reactive.Linq;
 using System.Windows.Controls;
 using System;
-using System.Linq;
-using Microsoft.Expression.Interactivity.Core;
-using System.Windows.Input;
+using System.Collections.Generic;
+using LFaq = Faq.Library.Faq;
+using Faq.Library.Extentions;
+using System.Reactive;
 
 namespace Test
 {
@@ -14,6 +14,8 @@ namespace Test
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<LFaq> AllFaqs;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -21,36 +23,17 @@ namespace Test
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (DataContext != null)
-            {
-                SampleDataSource source = (SampleDataSource)DataContext;
-                foreach (var domainFaq in source.Faq)
-                {
-                    Faq.Library.Faq faq = new Faq.Library.Faq(domainFaq.Question, domainFaq.Answer);
-                    faq.InsertFaq();
-                }
-            }
-            else
-            {
-                DataContext = Faq.Library.Faq.GetAllFaq();
-                Observable.FromEventPattern<TextChangedEventArgs>(searchText, "TextChanged")
-                    .Throttle(TimeSpan.FromMilliseconds(200))
-                    .ObserveOn(System.Threading.SynchronizationContext.Current)
-                    .Subscribe(messages => Hande(messages));
-            }
+            AllFaqs = LFaq.GetAllFaq();
+            DataContext = AllFaqs;
+            Observable.FromEventPattern<TextChangedEventArgs>(searchText, "TextChanged")
+                .Throttle(TimeSpan.FromMilliseconds(200))
+                .ObserveOn(System.Threading.SynchronizationContext.Current)
+                .Subscribe(messages => Hande(messages));
         }
 
-        private object Hande(System.Reactive.EventPattern<TextChangedEventArgs> messages)
+        private object Hande(EventPattern<TextChangedEventArgs> messages)
         {
-            if (string.IsNullOrWhiteSpace(searchText.Text))
-            {
-                listBox.ItemsSource = Faq.Library.Faq.GetAllFaq();
-            }
-            else
-            {
-                listBox.ItemsSource = Faq.Library.Faq.FindFaq(string.Format("%{0}%", searchText.Text));
-            }
-
+            listBox.ItemsSource = AllFaqs.Filter(searchText.Text);
             return messages;
         }
 

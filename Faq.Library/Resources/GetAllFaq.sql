@@ -1,2 +1,2 @@
-﻿SELECT TOP 10 Id, Answer, Question
+﻿SELECT TOP 10000 Id, Answer, Question
 FROM Faq
