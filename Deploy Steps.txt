@@ -3,3 +3,14 @@
 3) Publish Faq.Db with the copied connection string
 4) Set Faq.Wpf as start project
 5) Run Faq.Wpf
+
+PS> New-WebSite -Name faq -Port 80 -HostHeader faq.com -PhysicalPath "C:\Users\Mykhailo.Basiuk\Source\Repos\FAQ\Web"
+Add-Content -LiteralPath C:\Windows\system32\drivers\etc\hosts -Value "127.0.0.1 faq.com"
+
+cd C:\Users\Mykhailo.Basiuk\Source\Repos\FAQ
+$acl = Get-Acl .\Web
+$acl
+$ar = New-Object System.Security.AccessControl.FileSystemAccessRule("everyone", "FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+$ar
+$acl.SetAccessRule($ar)
+Set-Acl .\Web $acl
