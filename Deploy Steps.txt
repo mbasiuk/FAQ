@@ -14,3 +14,14 @@ $ar = New-Object System.Security.AccessControl.FileSystemAccessRule("everyone", 
 $ar
 $acl.SetAccessRule($ar)
 Set-Acl .\Web $acl
+
+New-WebAppPool faq
+Set-ItemProperty IIS:\AppPools\faq -Name "processModel.loadUserProfile" -Value "True"
+Set-ItemProperty IIS:\Sites\faq ApplicationPool faq
+
+CREATE LOGIN [IIS APPPOOL\faq] FROM WINDOWS;
+CREATE USER [faq] FOR LOGIN [IIS APPPOOL\faq];
+exec sp_addrolemember 'db_owner', 'faq'
+
+in visual studio
+sqllocaldb share v11.0 IIS_DB
