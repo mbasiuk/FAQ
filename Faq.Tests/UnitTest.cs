@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+
 namespace Faq.Tests
 {
     [TestClass]
@@ -7,21 +9,18 @@ namespace Faq.Tests
         [TestMethod]
         public void GetAllFaqTest()
         {
-            var faqs = Faq.Library.Faq.GetAllFaq();
+            var faqs = Library.FaqManager.Load();
+            Assert.IsNotNull(faqs);
+          
         }
 
         [TestMethod]
-        public void FindTest()
+        public void SaveTest()
         {
-            var faqs = Library.Faq.FindFaq("%how much%");
-        }
-
-        [TestMethod]
-        public void InsertAndDeleteTest()
-        {
-            Library.Faq faq = new Library.Faq("questions", "answer");
-            faq.InsertFaq();
-            faq.Delete();
+            List<Library.Faq> faqs = new List<Library.Faq>();
+            faqs.Add(new Library.Faq("q1", "a1"));
+            faqs.Add(new Library.Faq("q2", "a2"));
+            Library.FaqManager.Save(faqs);
         }
 
     }
