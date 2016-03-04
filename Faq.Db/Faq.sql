@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[Faq]
-(
-	[Id] INT IDENTITY(1,1)  PRIMARY KEY,
-	[Question] NVARCHAR(50) NULL UNIQUE, 
-    [Answer] NVARCHAR(500) NULL UNIQUE 
-)
