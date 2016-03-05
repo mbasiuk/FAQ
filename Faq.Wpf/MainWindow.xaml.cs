@@ -26,6 +26,8 @@ namespace WpfFaq
             InitializeComponent();
             QuestionByElement = new Dictionary<object, FAQ>();
             AnswerByElement = new Dictionary<object, FAQ>();
+            QuestionElementByFaq = new Dictionary<FAQ, TextBlock>();
+            AnswerElementByFaq = new Dictionary<FAQ, TextBlock>();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -61,9 +63,9 @@ namespace WpfFaq
                 question.PreviewMouseDown += textBlock_PreviewMouseDown;
                 LayoutRoot.Children.Add(question);
                 Canvas.SetLeft(question, 20);
-                Canvas.SetTop(question, i * 50);
+                SetTop(i, question);
                 QuestionByElement[question] = faqs[i];
-
+                QuestionElementByFaq[faqs[i]] = question;
 
                 TextBlock answer = new TextBlock();
                 answer.Text = faqs[i].Answer;
@@ -71,10 +73,16 @@ namespace WpfFaq
                 answer.PreviewMouseDown += textBlock_PreviewMouseDown;
                 LayoutRoot.Children.Add(answer);
                 Canvas.SetLeft(answer, 200);
-                Canvas.SetTop(answer, i * 50);
+                SetTop(i, answer);
                 AnswerByElement[answer] = faqs[i];
+                AnswerElementByFaq[faqs[i]] = answer;
             }
 
+        }
+
+        private static void SetTop(int i, TextBlock block)
+        {
+            Canvas.SetTop(block, i * 50);
         }
 
         private void RecalculateHeight()
@@ -84,7 +92,14 @@ namespace WpfFaq
 
         private void RecalculatePositions()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < AllFaqs.Count; i++)
+            {
+                FAQ faq = AllFaqs[i];
+                TextBlock questions = QuestionElementByFaq[faq];
+                SetTop(i, questions);
+                TextBlock answer = AnswerElementByFaq[faq];
+                SetTop(i, answer);
+            }
         }
 
 
@@ -146,20 +161,44 @@ namespace WpfFaq
             if (QuestionByElement.ContainsKey(active))
             {
                 FAQ activeFaq = QuestionByElement[active];
-                AllFaqs.Remove(activeFaq);
+                RemoveActiveFaq(activeFaq);
             }
 
             if (AnswerByElement.ContainsKey(active))
             {
                 FAQ activeFaq = AnswerByElement[active];
-                AllFaqs.Remove(activeFaq);
+                RemoveActiveFaq(activeFaq);
             }
 
             RecalculatePositions();
 
             RecalculateHeight();
+
+            active = null;
+            editorContainer.Visibility = Visibility.Collapsed;
+
         }
 
+        private void RemoveActiveFaq(FAQ activeFaq)
+        {
+            TextBlock questionElement = QuestionElementByFaq[activeFaq];
+            if (questionElement != null)
+            {
+                LayoutRoot.Children.Remove(questionElement);
+                QuestionElementByFaq.Remove(activeFaq);
+                QuestionByElement.Remove(questionElement);
+            }
+
+            TextBlock answerElement = AnswerElementByFaq[activeFaq];
+            if (answerElement != null)
+            {
+                LayoutRoot.Children.Remove(answerElement);
+                AnswerElementByFaq.Remove(activeFaq);
+                AnswerByElement.Remove(answerElement);
+            }
+
+            AllFaqs.Remove(activeFaq);
+        }
 
 
         private void buttonOk_Click(object sender, RoutedEventArgs e)
