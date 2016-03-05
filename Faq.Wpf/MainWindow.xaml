@@ -29,7 +29,7 @@
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Canvas x:Name="LayoutRoot" Height="270" VerticalAlignment="Top" >
 
-            <Canvas x:Name="editorContainer" Height="113" Canvas.Left="10" Canvas.Top="157" Width="774" Panel.ZIndex="1"  VerticalAlignment="Bottom" Visibility="Hidden">
+            <Canvas x:Name="editorContainer" Height="113" Canvas.Left="10" Canvas.Top="157" Width="774" Panel.ZIndex="1"  VerticalAlignment="Bottom" Visibility="Visible">
                 <TextBox x:Name="editor" Width="606" Height="50" Padding="24,8,0,0" Canvas.Top="31" Canvas.Left="11"/>
                 <Button Content="OK" Canvas.Left="652" Canvas.Top="31" Click="buttonOk_Click" ToolTip="On OK selected quesion or answer text will be updated. Use ENTER key on Keyboard to quick access to this function.">
                     <Button.Style>
@@ -45,11 +45,11 @@
                                         </Viewbox>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="#FF252525" />
+                                                <Setter Property="Foreground" Value="White" />
                                                 <Setter Property="Background" Value="#FF83C283" />
                                             </Trigger>
                                             <Trigger Property="IsPressed" Value="True">
-                                                <Setter Property="Background" Value="#FF9ABA9A" />
+                                                <Setter Property="Background" Value="#FF6AB36A" />
                                                 <Setter Property="Foreground" Value="#FF171717" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
@@ -87,6 +87,16 @@
                                                 </ContentPresenter>
                                             </Canvas>
                                         </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="#FF83C283" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#FF9ABA9A" />
+                                                <Setter Property="Foreground" Value="#FF171717" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -101,7 +111,7 @@
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Viewbox Width="50" Height="50">
                                             <Canvas Width="50" Height="50">
-                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="Gray" >
+                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="#FFE0DEDE" >
                                                     <Path.RenderTransform>
                                                         <TransformGroup>
                                                             <ScaleTransform/>
@@ -121,6 +131,17 @@
                                                 </ContentPresenter>
                                             </Canvas>
                                         </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="#FF3FCBFF" />
+                                                <Setter Property="BorderBrush" Value="White" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#FF0DB8F7" />
+                                                <Setter Property="Foreground" Value="#FF171717" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
@@ -155,6 +176,16 @@
                                                 </ContentPresenter>
                                             </Canvas>
                                         </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="#FF83C283" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#FF6AB36A" />
+                                                <Setter Property="Foreground" Value="#FF171717" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
