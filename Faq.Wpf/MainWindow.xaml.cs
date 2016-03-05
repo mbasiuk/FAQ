@@ -164,7 +164,7 @@ namespace WpfFaq
 
         private void CancelEdit_Click(object sender, RoutedEventArgs e)
         {
-            if(active != null)
+            if (active != null)
             {
                 active.Focus();
             }
@@ -199,9 +199,11 @@ namespace WpfFaq
                 return;
             }
 
+            int activeIndex = LayoutRoot.Children.IndexOf(active);
+
             if (QuestionByElement.ContainsKey(active))
             {
-                FAQ activeFaq = QuestionByElement[active];                                                    
+                FAQ activeFaq = QuestionByElement[active];
                 RemoveActiveFaq(activeFaq);
             }
 
@@ -214,7 +216,23 @@ namespace WpfFaq
             RecalculatePositions();
 
             RecalculateHeight();
-           
+
+            if(LayoutRoot.Children.Count == activeIndex && activeIndex > 1)
+            {
+                activeIndex -= 2;
+            }
+
+            if (LayoutRoot.Children.Count > activeIndex)
+            {
+                LayoutRoot.Children[activeIndex].Focus();
+            }
+
+            if (AllFaqs.Count == 0)
+            {
+                noFaqsContainer.Visibility = Visibility.Visible;
+            }
+
+
             active = null;
             editorContainer.Visibility = Visibility.Collapsed;
 
@@ -254,6 +272,7 @@ namespace WpfFaq
                 {
                     AnswerByElement[active].Answer = active.Text;
                 }
+                active.Focus();
             }
             active = null;
             editorContainer.Visibility = Visibility.Collapsed;
