@@ -46,12 +46,7 @@ namespace WpfFaq
                 CreateFaq(AllFaqs);
                 RecalculateHeight();
             }
-            SizeHooks();
-        }
-
-        private void SizeHooks()
-        {
-            //  LayoutRoot.Height = FaqWindow.Height - 80;
+            
         }
 
         private void CreateFaq(List<FAQ> faqs, int skip = 0)
@@ -243,11 +238,6 @@ namespace WpfFaq
                     buttonOk_Click(sender, e);
                     break;
             }
-        }
-
-        private void FaqWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SizeHooks();
         }
     }
 }

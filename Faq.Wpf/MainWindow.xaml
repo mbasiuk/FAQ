@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WpfFaq.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" SizeChanged="FaqWindow_SizeChanged" PreviewKeyUp="FaqWindow_PreviewKeyUp" >
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" PreviewKeyUp="FaqWindow_PreviewKeyUp" >
     <Window.Resources>
         <Style x:Key="QuestionStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FFEB9999" />
