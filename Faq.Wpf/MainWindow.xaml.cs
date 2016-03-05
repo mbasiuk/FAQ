@@ -86,7 +86,7 @@ namespace WpfFaq
 
         }
 
-        private static void SetTop(int i, TextBlock block)
+        private static void SetTop(int i, UIElement block)
         {
             Canvas.SetTop(block, i * 50);
         }
@@ -119,16 +119,23 @@ namespace WpfFaq
 
         private void textBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            editorContainer.Visibility = Visibility.Visible;
+            
             active = sender as TextBlock;
             if (active != null)
             {
-                editor.Text = active.Text;
-                editor.Focus();
-                Keyboard.Focus(editor);
+                editActiveTextBlock();
                 e.Handled = true;
             }
 
+        }
+
+        private void editActiveTextBlock()
+        {
+            editorContainer.Visibility = Visibility.Visible;
+            editor.Text = active.Text;
+            Canvas.SetTop(editorContainer, Canvas.GetTop(active));
+            editor.Focus();          
+            Keyboard.Focus(editor);
         }
 
         private void CancelEdit_Click(object sender, RoutedEventArgs e)
