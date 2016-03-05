@@ -7,19 +7,23 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WpfFaq.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" PreviewKeyUp="FaqWindow_PreviewKeyUp" >
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" KeyDown="FaqWindow_PreviewKeyUp" >
     <Window.Resources>
         <Style x:Key="QuestionStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FFEB9999" />
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="40" />
             <Setter Property="Padding" Value="24,8,0,0"/>
+            <Setter Property="Focusable" Value="True"/>
+            <Setter Property="Canvas.Left" Value="20"/>
         </Style>
         <Style x:Key="AnswerStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FF8CAAB7" />
             <Setter Property="Width" Value="300"/>
             <Setter Property="Height" Value="40" />
             <Setter Property="Padding" Value="24,8,0,0"/>
+            <Setter Property="Focusable" Value="True" />
+            <Setter Property="Canvas.Left" Value="250"/>
         </Style>
     </Window.Resources>
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">

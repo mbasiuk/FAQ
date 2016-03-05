@@ -45,8 +45,22 @@ namespace WpfFaq
             {
                 CreateFaq(AllFaqs);
                 RecalculateHeight();
+                TabSwitch();
+                e.Handled = true;
             }
-            
+
+        }
+
+        private void TabSwitch()
+        {
+            if (AllFaqs == null || AllFaqs.Count == 0)
+            {
+                return;
+            }
+
+            TextBlock first = QuestionElementByFaq[AllFaqs[0]];
+            first.Focus();
+            Keyboard.Focus(first);
         }
 
         private void CreateFaq(List<FAQ> faqs, int skip = 0)
@@ -62,8 +76,8 @@ namespace WpfFaq
                 question.Text = faqs[i].Question;
                 question.Style = questionStyle;
                 question.PreviewMouseDown += textBlock_PreviewMouseDown;
+                question.KeyDown += textBlock_PreviewKeyDown;
                 LayoutRoot.Children.Add(question);
-                Canvas.SetLeft(question, 20);
                 SetTop(i, question);
                 QuestionByElement[question] = faqs[i];
                 QuestionElementByFaq[faqs[i]] = question;
@@ -72,8 +86,9 @@ namespace WpfFaq
                 answer.Text = faqs[i].Answer;
                 answer.Style = answerStyle;
                 answer.PreviewMouseDown += textBlock_PreviewMouseDown;
+                answer.KeyDown += textBlock_PreviewKeyDown;
                 LayoutRoot.Children.Add(answer);
-                Canvas.SetLeft(answer, 200);
+
                 SetTop(i, answer);
                 AnswerByElement[answer] = faqs[i];
                 AnswerElementByFaq[faqs[i]] = answer;
@@ -81,9 +96,24 @@ namespace WpfFaq
 
         }
 
-        private static void SetTop(int i, UIElement block)
+        private void textBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            Canvas.SetTop(block, i * 50);
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    textBlock_PreviewMouseDown(sender, e);
+                    break;
+                case Key.Delete:
+                    active = sender as TextBlock;
+                    removeFaq_Click(sender, e);
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private static void SetTop(int i, UIElement element)
+        {
+            Canvas.SetTop(element, i * 50);
         }
 
         private void RecalculateHeight()
@@ -112,9 +142,8 @@ namespace WpfFaq
             e.Handled = true;
         }
 
-        private void textBlock_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void textBlock_PreviewMouseDown(object sender, RoutedEventArgs e)
         {
-            
             active = sender as TextBlock;
             if (active != null)
             {
@@ -129,12 +158,16 @@ namespace WpfFaq
             editorContainer.Visibility = Visibility.Visible;
             editor.Text = active.Text;
             Canvas.SetTop(editorContainer, Canvas.GetTop(active));
-            editor.Focus();          
+            editor.Focus();
             Keyboard.Focus(editor);
         }
 
         private void CancelEdit_Click(object sender, RoutedEventArgs e)
         {
+            if(active != null)
+            {
+                active.Focus();
+            }
             active = null;
             editorContainer.Visibility = Visibility.Collapsed;
         }
@@ -168,7 +201,7 @@ namespace WpfFaq
 
             if (QuestionByElement.ContainsKey(active))
             {
-                FAQ activeFaq = QuestionByElement[active];
+                FAQ activeFaq = QuestionByElement[active];                                                    
                 RemoveActiveFaq(activeFaq);
             }
 
@@ -181,7 +214,7 @@ namespace WpfFaq
             RecalculatePositions();
 
             RecalculateHeight();
-
+           
             active = null;
             editorContainer.Visibility = Visibility.Collapsed;
 
@@ -207,7 +240,6 @@ namespace WpfFaq
 
             AllFaqs.Remove(activeFaq);
         }
-
 
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
