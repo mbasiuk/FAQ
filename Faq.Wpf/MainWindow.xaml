@@ -31,7 +31,7 @@
 
             <Canvas x:Name="editorContainer" Height="113" Canvas.Left="10" Canvas.Top="157" Width="774" Panel.ZIndex="1"  VerticalAlignment="Bottom" Visibility="Hidden">
                 <TextBox x:Name="editor" Width="606" Height="50" Padding="24,8,0,0" Canvas.Top="31" Canvas.Left="11"/>
-                <Canvas Height="107" Canvas.Left="622" Canvas.Top="3" Width="108" RenderTransformOrigin="0.5,0.5">
+                <Canvas Height="107" Canvas.Left="622" Canvas.Top="3" Width="108" RenderTransformOrigin="0.5,0.5" x:Name="canvasButtons" Opacity="0.7">
                     <Canvas.RenderTransform>
                         <RotateTransform Angle="0" x:Name="rotateTrans"/>                                                    
                     </Canvas.RenderTransform>
@@ -40,6 +40,22 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="(Canvas.RenderTransform).(RotateTransform.Angle)" To="10" Duration="0:0:0.2" ></DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2">
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:2">
+                                    </DoubleAnimation>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
