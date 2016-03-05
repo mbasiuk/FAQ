@@ -32,7 +32,7 @@ namespace WpfFaq
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            return;
             questionStyle = FindResource("QuestionStyle") as Style;
             answerStyle = FindResource("AnswerStyle") as Style;
 
