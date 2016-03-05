@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WpfFaq.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" KeyDown="FaqWindow_PreviewKeyUp" >
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" KeyDown="FaqWindow_PreviewKeyUp" >
     <Window.Resources>
         <Style x:Key="QuestionStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FFEB9999" />
@@ -29,195 +29,188 @@
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Canvas x:Name="LayoutRoot" Height="270" VerticalAlignment="Top" >
 
-            <Canvas x:Name="editorContainer" Height="85" Canvas.Left="10" Canvas.Top="186" Width="709" Panel.ZIndex="1"  VerticalAlignment="Bottom" >
-                <TextBox x:Name="editor" Width="606" Height="85" Padding="24,8,0,0"/>
-                <Button x:Name="buttonOk" Content="ok" Canvas.Left="611" Width="40" Height="25" Click="buttonOk_Click"/>
-                <Button x:Name="CancelEdit" Content="cancel" Canvas.Left="611" Canvas.Top="30" Width="40" Height="25" Click="CancelEdit_Click"/>
-                <Button x:Name="Save" Content="save" Canvas.Left="611" Canvas.Top="61" Width="40" Height="25" Click="Save_Click" />
-                <Button x:Name="addFaq" Content="add" Canvas.Left="656" Width="51" Height="25" Click="addFaq_Click"/>
-                <Button x:Name="removeFaq" Content="remove" Canvas.Left="656" Width="51" Height="25" Canvas.Top="30" Click="removeFaq_Click"/>
+            <Canvas x:Name="editorContainer" Height="113" Canvas.Left="10" Canvas.Top="157" Width="774" Panel.ZIndex="1"  VerticalAlignment="Bottom" Visibility="Hidden">
+                <TextBox x:Name="editor" Width="606" Height="50" Padding="24,8,0,0" Canvas.Top="31" Canvas.Left="11"/>
+                <Button Content="OK" Canvas.Left="652" Canvas.Top="31" Click="buttonOk_Click" ToolTip="On OK selected quesion or answer text will be updated. Use ENTER key on Keyboard to quick access to this function.">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}" >
+                                        <Viewbox Width="50" Height="50">
+                                            <Canvas Width="50" Height="50">
+                                                <Ellipse Width="50" Height="50"  Fill="{TemplateBinding Background}" Stroke="#FF83C283"  />
+                                                <ContentPresenter Canvas.Left="17" Canvas.Top="16"  />
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="#FF252525" />
+                                                <Setter Property="Background" Value="#FF83C283" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#FF9ABA9A" />
+                                                <Setter Property="Foreground" Value="#FF171717" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Canvas.Left="680" Content="Save" Canvas.Top="3" Click="Save_Click" ToolTip="confirm the current edit and save all changes to the disk. All will be avaliable on the next program run. Use F2 to keyboard access to this function.">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Viewbox Width="50" Height="50">
+                                            <Canvas Width="50" Height="50">
+                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" RenderTransformOrigin="0,1" >
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform/>
+                                                            <SkewTransform/>
+                                                            <RotateTransform Angle="0"/>
+                                                            <TranslateTransform/>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="45"/>
+                                                            <TranslateTransform X="10" Y="-5" />
+                                                        </TransformGroup>
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                            </Canvas>
+                                        </Viewbox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Canvas.Left="622" Content="Cancel" Canvas.Top="3" Click="CancelEdit_Click" ToolTip="Disgard editing of the selected FAQ. Use ESC key on keyboard to quick access.">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Viewbox Width="50" Height="50">
+                                            <Canvas Width="50" Height="50">
+                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="Gray" >
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform/>
+                                                            <SkewTransform/>
+                                                            <RotateTransform Angle="270"/>
+                                                            <TranslateTransform Y="50" />
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="-45"/>
+                                                            <TranslateTransform X="-10" Y="15"/>
+                                                        </TransformGroup>
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                            </Canvas>
+                                        </Viewbox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Canvas.Left="622" Content="Add(+)" Canvas.Top="60" BorderBrush="#FFACCBBB" Click="addFaq_Click" ToolTip="Add new FAQs with empty anwers and question. Click answer or question box to edit. Use TAB to switch selected. Use ENTER to edit.">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Viewbox Width="50" Height="50">
+                                            <Canvas Width="50" Height="50">
+                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="{TemplateBinding BorderBrush}" >
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform/>
+                                                            <SkewTransform/>
+                                                            <RotateTransform Angle="180"/>
+                                                            <TranslateTransform Y="50" X="50"/>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="45"/>
+                                                            <TranslateTransform X="2" Y="-9"/>
+                                                        </TransformGroup>
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                            </Canvas>
+                                        </Viewbox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Canvas.Left="681" Content="Remove" Canvas.Top="60" Click="removeFaq_Click" ToolTip="remove selected FAQ. use DELETE key on keyboard for quick access.">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Viewbox Width="50" Height="50">
+                                            <Canvas Width="50" Height="50">
+                                                <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="#FFF18989" >
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform/>
+                                                            <SkewTransform/>
+                                                            <RotateTransform Angle="90"/>
+                                                            <TranslateTransform Y="0" X="50"/>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <ContentPresenter Canvas.Left="15" Canvas.Top="15"  >
+                                                    <ContentPresenter.RenderTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="-45"/>
+                                                            <TranslateTransform X="-12" Y="17"/>
+                                                        </TransformGroup>
+                                                    </ContentPresenter.RenderTransform>
+                                                </ContentPresenter>
+                                            </Canvas>
+                                        </Viewbox>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="Background" Value="#FFE56C6C" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Background" Value="#FFD65F5F" />
+                                                <Setter Property="Foreground" Value="#FF171717" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Canvas>
             <Canvas x:Name="noFaqsContainer" Height="74" Canvas.Left="240" Canvas.Top="78" Width="293" Visibility="Hidden">
                 <TextBlock  Text="Currently there are not any FAQ. Press button to create."/>
                 <Button x:Name="createFirst" Content="Create" Canvas.Left="111" Width="64" Height="25" Canvas.Top="49"  Click="addFaq_Click"/>
             </Canvas>
-
-            <Button Content="OK" Canvas.Left="100" Canvas.Top="50" Foreground="Gray">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button" >
-                                    <Viewbox Width="50" Height="50">
-                                        <Canvas Width="50" Height="50">
-                                            <Ellipse Width="50" Height="50"  Fill="{TemplateBinding Background}" Stroke="#FF83C283"  ></Ellipse>
-                                            <ContentPresenter Canvas.Left="17" Canvas.Top="16"  />
-                                        </Canvas>
-                                    </Viewbox>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="#FF252525" />
-                                            <Setter Property="Background" Value="#FF83C283" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="#FF9ABA9A" />
-                                            <Setter Property="Foreground" Value="#FF171717" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-
-            <Button Canvas.Left="128" Content="Save" Canvas.Top="21">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Viewbox Width="50" Height="50">
-                                        <Canvas Width="50" Height="50">
-                                            <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" RenderTransformOrigin="0,1" >
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="0"/>
-                                                        <TranslateTransform/>
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                            <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
-                                                <ContentPresenter.RenderTransform>
-                                                    <TransformGroup>
-                                                        <RotateTransform Angle="45"></RotateTransform>
-                                                        <TranslateTransform X="10" Y="-5" ></TranslateTransform>
-                                                    </TransformGroup>
-                                                </ContentPresenter.RenderTransform>
-                                            </ContentPresenter>
-                                        </Canvas>
-                                    </Viewbox>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Canvas.Left="71" Content="Cancel" Canvas.Top="21">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Viewbox Width="50" Height="50">
-                                        <Canvas Width="50" Height="50">
-                                            <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="Gray" >
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="270"/>
-                                                        <TranslateTransform Y="50" />
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                            <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
-                                                <ContentPresenter.RenderTransform>
-                                                    <TransformGroup>
-                                                        <RotateTransform Angle="-45"></RotateTransform>
-                                                        <TranslateTransform X="-10" Y="15"></TranslateTransform>
-                                                    </TransformGroup>
-                                                </ContentPresenter.RenderTransform>
-                                            </ContentPresenter>
-                                        </Canvas>
-                                    </Viewbox>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Canvas.Left="71" Content="Add(+)" Canvas.Top="78" Foreground="Gray" BorderBrush="#FFACCBBB">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Viewbox Width="50" Height="50">
-                                        <Canvas Width="50" Height="50">
-                                            <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="{TemplateBinding BorderBrush}" >
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="180"/>
-                                                        <TranslateTransform Y="50" X="50"/>
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                            <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
-                                                <ContentPresenter.RenderTransform>
-                                                    <TransformGroup>
-                                                        <RotateTransform Angle="45"/>
-                                                        <TranslateTransform X="2" Y="-9"/>
-                                                    </TransformGroup>
-                                                </ContentPresenter.RenderTransform>
-                                            </ContentPresenter>
-                                        </Canvas>
-                                    </Viewbox>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Canvas.Left="129" Content="Remove" Canvas.Top="78" Foreground="Gray">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Viewbox Width="50" Height="50">
-                                        <Canvas Width="50" Height="50">
-                                            <Path Fill="{TemplateBinding Background}" Data="M 0 0 A 50,50 90 0 1 50,50 h -25 a 25,25 90 0 0 -25,-25 z" Stroke="#FFF18989" >
-                                                <Path.RenderTransform>
-                                                    <TransformGroup>
-                                                        <ScaleTransform/>
-                                                        <SkewTransform/>
-                                                        <RotateTransform Angle="90"/>
-                                                        <TranslateTransform Y="0" X="50"/>
-                                                    </TransformGroup>
-                                                </Path.RenderTransform>
-                                            </Path>
-                                            <ContentPresenter Canvas.Left="15" Canvas.Top="15" >
-                                                <ContentPresenter.RenderTransform>
-                                                    <TransformGroup>
-                                                        <RotateTransform Angle="-45"/>
-                                                        <TranslateTransform X="-12" Y="17"/>
-                                                    </TransformGroup>
-                                                </ContentPresenter.RenderTransform>
-                                            </ContentPresenter>
-                                        </Canvas>
-                                    </Viewbox>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Foreground" Value="White" />
-                                            <Setter Property="Background" Value="#FFE56C6C" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="#FFD65F5F" />
-                                            <Setter Property="Foreground" Value="#FF171717" />
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                                
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
 
             <!--<TextBlock x:Name="textBlock" Canvas.Left="183" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="124" Height="56" Width="152" Background="#FF8CAAB7" Padding="24,8,0,0" PreviewMouseDown="textBlock_PreviewMouseDown"/>-->
         </Canvas>

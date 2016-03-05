@@ -32,7 +32,6 @@ namespace WpfFaq
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            return;
             questionStyle = FindResource("QuestionStyle") as Style;
             answerStyle = FindResource("AnswerStyle") as Style;
 
@@ -217,7 +216,7 @@ namespace WpfFaq
 
             RecalculateHeight();
 
-            if(LayoutRoot.Children.Count == activeIndex && activeIndex > 1)
+            if (LayoutRoot.Children.Count == activeIndex && activeIndex > 1)
             {
                 activeIndex -= 2;
             }
@@ -287,6 +286,12 @@ namespace WpfFaq
                     break;
                 case Key.Enter:
                     buttonOk_Click(sender, e);
+                    break;
+                case Key.F2:
+                    Save_Click(sender, e);
+                    break;
+                case Key.F3:
+                    addFaq_Click(sender, e);
                     break;
             }
         }
