@@ -46,6 +46,12 @@ namespace WpfFaq
                 CreateFaq(AllFaqs);
                 RecalculateHeight();
             }
+            SizeHooks();
+        }
+
+        private void SizeHooks()
+        {
+            //  LayoutRoot.Height = FaqWindow.Height - 80;
         }
 
         private void CreateFaq(List<FAQ> faqs, int skip = 0)
@@ -87,7 +93,7 @@ namespace WpfFaq
 
         private void RecalculateHeight()
         {
-            LayoutRoot.Height = Math.Max(280, AllFaqs.Count * 50 + 25);
+            LayoutRoot.Height = Math.Max(270, AllFaqs.Count * 50 + 25);
         }
 
         private void RecalculatePositions()
@@ -226,7 +232,15 @@ namespace WpfFaq
                 case Key.Escape:
                     CancelEdit_Click(sender, e);
                     break;
+                case Key.Enter:
+                    buttonOk_Click(sender, e);
+                    break;
             }
+        }
+
+        private void FaqWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SizeHooks();
         }
     }
 }

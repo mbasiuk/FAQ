@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WpfFaq.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" >
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" SizeChanged="FaqWindow_SizeChanged" PreviewKeyUp="FaqWindow_PreviewKeyUp" >
     <Window.Resources>
         <Style x:Key="QuestionStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FFEB9999" />
@@ -23,7 +23,7 @@
         </Style>
     </Window.Resources>
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-        <Canvas x:Name="LayoutRoot"  Margin="20" >
+        <Canvas x:Name="LayoutRoot"  Margin="20" Height="270" VerticalAlignment="Top" >
 
             <Canvas x:Name="editorContainer" Height="85" Canvas.Left="10" Canvas.Top="186" Width="709" Panel.ZIndex="1" Visibility="Hidden" >
                 <TextBox x:Name="editor" Width="606" Height="85" Padding="24,8,0,0"/>
