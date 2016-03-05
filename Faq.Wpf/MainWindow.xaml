@@ -7,7 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="WpfFaq.MainWindow"
         mc:Ignorable="d"
     x:Name="FaqWindow"
-        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" >
+        Title="Faq" Height="350" Width="800" Loaded="Window_Loaded" MinWidth="664" Icon="monkey.ico" Background="#FFF0E9E9" >
     <Window.Resources>
         <Style x:Key="QuestionStyle" TargetType="TextBlock">
             <Setter Property="Background" Value="#FFEB9999" />
@@ -22,16 +22,22 @@
             <Setter Property="Padding" Value="24,8,0,0"/>
         </Style>
     </Window.Resources>
-    <Canvas x:Name="LayoutRoot" Margin="20"  >
-        <Canvas x:Name="editorContainer" Height="85" Canvas.Left="10" Canvas.Top="186" Width="709">
-            <TextBox x:Name="editor" Width="606" Height="85"/>
-            <Button x:Name="button" Content="ok" Canvas.Left="611" Width="40" Height="25" Click="button_Click"/>
-            <Button x:Name="CancelEdit" Content="cancel" Canvas.Left="611" Canvas.Top="30" Width="40" Height="25" Click="CancelEdit_Click"/>
-            <Button x:Name="Save" Content="save" Canvas.Left="611" Canvas.Top="61" Width="40" Height="25" Click="Save_Click" />
-            <Button x:Name="addFaq" Content="add" Canvas.Left="656" Width="51" Height="25" Click="addFaq_Click"/>
-            <Button x:Name="removeFaq" Content="remove" Canvas.Left="656" Width="51" Height="25" Canvas.Top="30" Click="removeFaq_Click"/>
-        </Canvas>
-        <!--<TextBlock x:Name="textBlock" Canvas.Left="183" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="124" Height="56" Width="152" Background="#FF8CAAB7" Padding="24,8,0,0" PreviewMouseDown="textBlock_PreviewMouseDown"/>-->
-    </Canvas>
+    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Canvas x:Name="LayoutRoot"  Margin="20" >
 
+            <Canvas x:Name="editorContainer" Height="85" Canvas.Left="10" Canvas.Top="186" Width="709" Panel.ZIndex="1" >
+                <TextBox x:Name="editor" Width="606" Height="85" Padding="24,8,0,0"/>
+                <Button x:Name="buttonOk" Content="ok" Canvas.Left="611" Width="40" Height="25" Click="buttonOk_Click"/>
+                <Button x:Name="CancelEdit" Content="cancel" Canvas.Left="611" Canvas.Top="30" Width="40" Height="25" Click="CancelEdit_Click"/>
+                <Button x:Name="Save" Content="save" Canvas.Left="611" Canvas.Top="61" Width="40" Height="25" Click="Save_Click" />
+                <Button x:Name="addFaq" Content="add" Canvas.Left="656" Width="51" Height="25" Click="addFaq_Click"/>
+                <Button x:Name="removeFaq" Content="remove" Canvas.Left="656" Width="51" Height="25" Canvas.Top="30" Click="removeFaq_Click"/>
+            </Canvas>
+            <Canvas x:Name="noFaqsContainer" Height="74" Canvas.Left="240" Canvas.Top="78" Width="293" Visibility="Hidden">
+                <TextBlock  Text="Currently there are not any FAQ. Press button to create."/>
+                <Button x:Name="createFirst" Content="Create" Canvas.Left="111" Width="64" Height="25" Canvas.Top="49"  Click="addFaq_Click"/>
+            </Canvas>
+            <!--<TextBlock x:Name="textBlock" Canvas.Left="183" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="124" Height="56" Width="152" Background="#FF8CAAB7" Padding="24,8,0,0" PreviewMouseDown="textBlock_PreviewMouseDown"/>-->
+        </Canvas>
+    </ScrollViewer>
 </Window>
