@@ -3,17 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faq.Wpf", "Faq.Wpf\Faq.Wpf.csproj", "{097B7FCD-65F2-4588-BD08-B83E828DB022}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faq", "Faq\Faq.csproj", "{38FFE63D-49DA-4786-8691-11C6B506E7EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faq.Library", "Faq.Library\Faq.Library.csproj", "{82D2D316-BF34-4E8C-A5BB-795214ECA751}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faq.Tests", "Faq.Tests\Faq.Tests.csproj", "{15ACD43A-38A8-41D0-B776-F666FD0FA927}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6B0B66F9-239E-493E-B1F2-C291381786F9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{015FACE9-995F-4058-A6A7-269EEFC0B415}"
 	ProjectSection(SolutionItems) = preProject
-		editmode.png = editmode.png
+		edit.png = edit.png
 		readme.md = readme.md
-		screen.png = screen.png
+		view.png = view.png
+		viewedit.png = viewedit.png
 	EndProjectSection
 EndProject
 Global
@@ -22,18 +19,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{097B7FCD-65F2-4588-BD08-B83E828DB022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{097B7FCD-65F2-4588-BD08-B83E828DB022}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{097B7FCD-65F2-4588-BD08-B83E828DB022}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{097B7FCD-65F2-4588-BD08-B83E828DB022}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82D2D316-BF34-4E8C-A5BB-795214ECA751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82D2D316-BF34-4E8C-A5BB-795214ECA751}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82D2D316-BF34-4E8C-A5BB-795214ECA751}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82D2D316-BF34-4E8C-A5BB-795214ECA751}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15ACD43A-38A8-41D0-B776-F666FD0FA927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15ACD43A-38A8-41D0-B776-F666FD0FA927}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15ACD43A-38A8-41D0-B776-F666FD0FA927}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15ACD43A-38A8-41D0-B776-F666FD0FA927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38FFE63D-49DA-4786-8691-11C6B506E7EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38FFE63D-49DA-4786-8691-11C6B506E7EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38FFE63D-49DA-4786-8691-11C6B506E7EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38FFE63D-49DA-4786-8691-11C6B506E7EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
