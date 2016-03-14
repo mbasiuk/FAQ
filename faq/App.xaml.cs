@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
 
 namespace Faq
@@ -13,5 +8,13 @@ namespace Faq
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            string currentProcessName = Process.GetCurrentProcess().ProcessName;
+            if (Process.GetProcessesByName(currentProcessName).Length > 1)
+            {
+                Current.Shutdown();
+            }
+        }
     }
 }
