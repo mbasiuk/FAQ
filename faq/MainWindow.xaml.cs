@@ -13,9 +13,16 @@ namespace Faq
     /// </summary>
     public partial class MainWindow : Window
     {
-        string path = null;
-        DispatcherTimer timer;
+        string FaqFullPath = null;
+        const string faqsFileName = "faq.md";
         bool IsUpdated;
+
+        string ExternalValue = null;
+        bool IsUpdateExternal = false;
+
+        DispatcherTimer timer;
+        FileSystemWatcher watcher;
+
         public enum ViewEditMode
         {
             View, Edit, ViewAndEdit
@@ -32,17 +39,40 @@ namespace Faq
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().FullName), "faq.md");
-            if (File.Exists(path))
+            string currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            FaqFullPath = Path.Combine(currentDirectory, faqsFileName);
+            if (File.Exists(FaqFullPath))
             {
-                EditFaq.Text = File.ReadAllText(path);
+                EditFaq.Text = File.ReadAllText(FaqFullPath);
             }
+            else
+            {
+                File.WriteAllText(FaqFullPath, EditFaq.Text);
+            }
+
             InvalidateView();
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
 
+            watcher = new FileSystemWatcher(currentDirectory, faqsFileName);
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.Changed += Watcher_Changed;
+            watcher.EnableRaisingEvents = true;
+
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            using (FileStream fileStream = new FileStream(FaqFullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (StreamReader streamReader = new StreamReader(fileStream))
+            {
+                ExternalValue = streamReader.ReadToEnd();
+                IsUpdateExternal = true;
+                IsUpdated = true;
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -60,6 +90,13 @@ namespace Faq
 
         void InvalidateView()
         {
+            if (IsUpdateExternal)
+            {
+                IsUpdateExternal = false;
+                EditFaq.Text = ExternalValue;
+            }
+
+
             string text = EditFaq.Text;
             ViewFaq.Inlines.Clear();
             using (var reader = new StringReader(text))
@@ -84,9 +121,9 @@ namespace Faq
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (path != null)
+            if (FaqFullPath != null)
             {
-                File.WriteAllText(path, EditFaq.Text);
+                File.WriteAllText(FaqFullPath, EditFaq.Text);
             }
             base.OnClosing(e);
         }
@@ -138,7 +175,7 @@ namespace Faq
 
         private void TextBlock_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if(e.ClickCount >= 2)
+            if (e.ClickCount >= 2)
             {
                 rowCopyright.MaxHeight = 0;
             }
