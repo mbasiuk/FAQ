@@ -9,3 +9,9 @@
 ![faq edit screen](edit.png)
 ## FAQ in the mixed mode:   
 ![faq view and edit screen](viewedit.png)
+## Install
+```powershell
+git clone https://github.com/mbasiuk/faq -b r0
+cd .\faq
+.\Faq.exe
+```
