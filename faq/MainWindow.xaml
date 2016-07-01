@@ -50,6 +50,6 @@
                 Second Answer
             </TextBlock>
         </ScrollViewer>
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF858585" FontSize="10" MouseDown="TextBlock_MouseDown">© 2016 Mykhailo Basiuk(mykhalo.basiuk@gmail.com). <LineBreak/>All right reserved.</TextBlock>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF858585" FontSize="10" MouseDown="TextBlock_MouseDown">© 2016 Mykhailo Basiuk(mykhailo.basiuk@gmail.com). <LineBreak/>All right reserved.</TextBlock>
     </Grid>
 </Window>

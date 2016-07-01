@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Faq.Properties;
+using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
@@ -13,19 +14,17 @@ namespace Faq
     /// </summary>
     public partial class MainWindow : Window
     {
-        string FaqFullPath = null;
-        const string faqsFileName = "faq.md";
         bool IsUpdated;
 
         string ExternalValue = null;
         bool IsUpdateExternal = false;
+        FaqFile file;
 
         DispatcherTimer timer;
-        FileSystemWatcher watcher;
 
         public enum ViewEditMode
         {
-            View, Edit, ViewAndEdit
+            ViewAndEdit, View, Edit
         }
 
         ViewEditMode CurrentMode = ViewEditMode.ViewAndEdit;
@@ -39,40 +38,31 @@ namespace Faq
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            string currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            FaqFullPath = Path.Combine(currentDirectory, faqsFileName);
-            if (File.Exists(FaqFullPath))
+            string faqPath = ConfigurationManager.AppSettings["faqPath"];
+            try
             {
-                EditFaq.Text = File.ReadAllText(FaqFullPath);
+                CurrentMode = (ViewEditMode)Settings.Default.viewMode;
+                InvalidateViewMode();
             }
-            else
-            {
-                File.WriteAllText(FaqFullPath, EditFaq.Text);
-            }
+            catch { }
+
+            file = new FaqFile(faqPath);
+            file.ContentChanged += File_ContentChanged;
+            EditFaq.Text = file.GetContent();
 
             InvalidateView();
             timer = new DispatcherTimer();
             timer.Tick += Timer_Tick;
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
-
-            watcher = new FileSystemWatcher(currentDirectory, faqsFileName);
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
-            watcher.Changed += Watcher_Changed;
-            watcher.EnableRaisingEvents = true;
-
         }
 
-        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private void File_ContentChanged(string newFileContent)
         {
-            using (FileStream fileStream = new FileStream(FaqFullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (StreamReader streamReader = new StreamReader(fileStream))
-            {
-                ExternalValue = streamReader.ReadToEnd();
-                IsUpdateExternal = true;
-                IsUpdated = true;
-            }
+            ExternalValue = newFileContent;
+            IsUpdateExternal = true;
+            IsUpdated = true;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -121,10 +111,11 @@ namespace Faq
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (FaqFullPath != null)
+            if (file != null)
             {
-                File.WriteAllText(FaqFullPath, EditFaq.Text);
+                file.SetContent(EditFaq.Text);
             }
+            Settings.Default.Save();
             base.OnClosing(e);
         }
 
@@ -153,7 +144,11 @@ namespace Faq
                     CurrentMode = ViewEditMode.View;
                     break;
             }
+            InvalidateViewMode();
+        }
 
+        private void InvalidateViewMode()
+        {
             // Update Loyout
 
             switch (CurrentMode)
@@ -171,6 +166,8 @@ namespace Faq
                     editColumn.MaxWidth = 2000;
                     break;
             }
+
+            Settings.Default.viewMode = (int)CurrentMode;
         }
 
         private void TextBlock_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
